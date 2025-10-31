@@ -1,25 +1,19 @@
 import express from 'express';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import sequelize from './config/db';
-import authRoutes from './routes/authRoutes'; 
-
+import cors from 'cors';
+import authRoutes from './routes/authRoutes';
+import postRoutes from './routes/postRoutes'
 
 const app = express();
 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-}));
-
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:3000', // фронт
+    credentials: true
+}));
 
 app.use('/auth', authRoutes);
+app.use('/posts', postRoutes)
 
-const PORT = 5050;
-
-sequelize.sync({ force: false }).then(() => {
-    console.log('DB connected');
-    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-});
+app.listen(5050, () => console.log('Server running on port: 5050'));
