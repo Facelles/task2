@@ -6,12 +6,14 @@ export interface UserAttributes {
   id?: number;
   username: string;
   password: string;
+  role?: 'user' | 'admin';
 }
 
 export class User extends Model<UserAttributes> implements UserAttributes {
   public id!: number;
   public username!: string;
   public password!: string;
+  public role!: 'user' | 'admin';
 
 
   public checkPassword(password: string) {
@@ -34,6 +36,11 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    role: {
+      type: DataTypes.ENUM('user', 'admin'),
+      allowNull: false,
+      defaultValue: 'user',
     },
   },
   { sequelize, tableName: 'users' }

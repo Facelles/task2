@@ -178,37 +178,63 @@ export default function AdminPage() {
       )}
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-[1px] flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">{editId ? 'Редагувати пост' : 'Новий пост'}</h2>
-            <form className="flex flex-col gap-3" onSubmit={submit}>
-              <input
-                type="text"
-                placeholder="Заголовок"
-                className="border border-gray-200 p-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
-              <textarea
-                placeholder="Текст"
-                className="border border-gray-200 p-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[160px]"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                required
-              />
-              <select
-                className="border border-gray-200 p-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={status}
-                onChange={(e) => setStatus(e.target.value as 'draft' | 'published')}
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <h2 className="text-lg font-semibold">{editId ? 'Редагувати пост' : 'Новий пост'}</h2>
+              <button
+                aria-label="Закрити"
+                className="h-9 w-9 inline-flex items-center justify-center rounded-md hover:bg-gray-50"
+                onClick={() => setModalOpen(false)}
               >
-                <option value="draft">Чернетка</option>
-                <option value="published">Опубліковано</option>
-              </select>
-              <div className="flex justify-end gap-2 mt-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" /></svg>
+              </button>
+            </div>
+            <form onSubmit={submit}>
+              <div className="px-6 py-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm text-gray-600 mb-1">Заголовок</label>
+                  <input
+                    type="text"
+                    className="w-full border border-gray-200 p-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-sm text-gray-600 mb-1">Статус</label>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      className={`flex-1 px-3 py-2 rounded-md border text-sm ${status === 'draft' ? 'border-amber-300 bg-amber-50 text-amber-800' : 'border-gray-200 hover:bg-gray-50'}`}
+                      onClick={() => setStatus('draft')}
+                    >
+                      Чернетка
+                    </button>
+                    <button
+                      type="button"
+                      className={`flex-1 px-3 py-2 rounded-md border text-sm ${status === 'published' ? 'border-emerald-300 bg-emerald-50 text-emerald-800' : 'border-gray-200 hover:bg-gray-50'}`}
+                      onClick={() => setStatus('published')}
+                    >
+                      Опубліковано
+                    </button>
+                  </div>
+                </div>
+                <div className="md:col-span-3">
+                  <label className="block text-sm text-gray-600 mb-1">Текст</label>
+                  <textarea
+                    className="w-full border border-gray-200 p-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[200px]"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-2 bg-gray-50">
                 <button
                   type="button"
-                  className="px-4 py-2 rounded-md border border-gray-200 hover:bg-gray-50"
+                  className="px-4 py-2 rounded-md border border-gray-200 hover:bg-white"
                   onClick={() => setModalOpen(false)}
                 >
                   Скасувати

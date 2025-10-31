@@ -39,11 +39,11 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
     const { title, content, status } = req.body;
-    const user = (req as any).user;
+    const user = (req as unknown as { user: { id: number; role: 'user' | 'admin' } }).user;
     try {
         const post = await Post.findByPk(req.params.id);
         if (!post) return res.status(404).json({ message: 'Post not found' });
-        if (post.userId !== user.id) return res.status(403).json({ message: 'Not authorized' });
+        if (post.userId !== user.id && user.role !== 'admin') return res.status(403).json({ message: 'Not authorized' });
 
         await post.update({ title, content, status });
         res.json(post);
@@ -54,11 +54,11 @@ router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
 });
 
 router.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
-    const user = (req as any).user;
+    const user = (req as unknown as { user: { id: number; role: 'user' | 'admin' } }).user;
     try {
         const post = await Post.findByPk(req.params.id);
         if (!post) return res.status(404).json({ message: 'Post not found' });
-        if (post.userId !== user.id) return res.status(403).json({ message: 'Not authorized' });
+        if (post.userId !== user.id && user.role !== 'admin') return res.status(403).json({ message: 'Not authorized' });
 
         await post.destroy();
         res.json({ message: 'Post deleted' });

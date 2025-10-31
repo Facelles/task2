@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 export interface User {
   id: number;
   username: string;
+  role?: 'user' | 'admin';
 }
 
 export const useAuth = () => {
@@ -59,7 +60,7 @@ export const useAuth = () => {
     }
   };
 
-  const isAdmin = !!user && user.username === 'admin';
+  const isAdmin = !!user && user.role === 'admin';
 
   return { user, loading, login, register, logout, isAdmin };
 };
