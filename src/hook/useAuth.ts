@@ -59,5 +59,7 @@ export const useAuth = () => {
     }
   };
 
-  return { user, loading, login, register, logout };
+  const isAdmin = !!user && user.username === 'admin';
+
+  return { user, loading, login, register, logout, isAdmin };
 };
