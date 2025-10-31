@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f3f4f6;
   --foreground: #171717;
+  --primary: #2563eb;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --rounded: 1rem;
+  --shadow: 0 6px 30px 0 rgba(0,0,0,0.10);
 }
 
 @theme inline {
@@ -12,15 +17,99 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, color 0.2s;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+input, textarea, select {
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  border: 1.5px solid #e5e7eb;
+  border-radius: var(--rounded);
+  transition: box-shadow 0.18s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary);
+  border-color: var(--primary);
+}
+
+button {
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  border: none;
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+}
+button:active {
+  transform: scale(0.98);
+}
+
+.card, .shadow {
+  box-shadow: var(--shadow);
+  border-radius: var(--rounded);
+  background: #fff;
+  transition: box-shadow 0.22s;
+}
+.card:hover, .shadow:hover {
+  box-shadow: 0 10px 40px 0 rgba(37,99,235,0.14);
+}
+
+/* Form Feedback */
+.text-red-500 {
+  color: var(--danger)!important;
+}
+.text-green-500 {
+  color: var(--success)!important;
+}
+
+/* Modal styles */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 23, 42, 0.32);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modalFadeIn 0.35s cubic-bezier(.36,.27,.55,1.13);
+}
+
+.modal {
+  background: #fff;
+  border-radius: var(--rounded);
+  box-shadow: 0 10px 30px 0 rgba(27, 43, 87, 0.19);
+  max-width: 420px;
+  width: 90vw;
+  max-height: 95vh;
+  padding: 2.5rem 2rem 2rem 2rem;
+  position: relative;
+  z-index: 100;
+  animation: modalPopUp 0.3s cubic-bezier(.22,.68,.55,1.15);
+}
+
+@media (max-width: 520px) {
+  .modal {
+    padding: 1.2rem 0.7rem 1.6rem 0.7rem;
+    max-width: 99vw;
+  }
+}
+
+@keyframes modalFadeIn {
+  0%   { background: rgba(16,23,42, 0); }
+  100% { background: rgba(16,23,42, 0.32); }
+}
+@keyframes modalPopUp {
+  0%   { opacity: 0; transform: translateY(40px) scale(0.9); }
+  100% { opacity: 1; transform: none; }
 }
